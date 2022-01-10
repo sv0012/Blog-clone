@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Comment = ({ account, comment, setToggle }) => {
+const Comment = ({ comment, setToggle }) => {
     const classes = useStyles();
 
     const removeComment = async () => {
@@ -40,7 +40,7 @@ const Comment = ({ account, comment, setToggle }) => {
     return (
         <Box className={classes.component}>
             <Box className={classes.container}>
-                <Typography className={classes.name}>{account}</Typography>
+                <Typography className={classes.name}>{comment.name}</Typography>
                 <Typography className={classes.date}>{new Date(comment.date).toDateString()}</Typography>
                 <Delete className={classes.delete} onClick={() => removeComment()} />
             </Box>

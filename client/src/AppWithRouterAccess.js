@@ -48,8 +48,7 @@ const AppWithRouterAccess = () => {
                     <Route exact path='/create/:category?' component={CreateView} />
                     <Route exact path='/update/:id' component={UpdateView} />
 
-                    {/* <Route exact path='/about' component={About} />
-                    <Route exact path='/contact' component={Contact} /> */}
+                
                 </Switch>
             </Box>
         </Security >

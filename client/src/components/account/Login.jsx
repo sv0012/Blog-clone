@@ -14,9 +14,9 @@ const Login = ({ config }) => {
     console.log('error logging in', err);
   };
 
-  if (authState.isPending) return null;
+  
 
-  return authState.isAuthenticated ?
+  return authState?.isAuthenticated ?
     <Redirect to={{ pathname: '/' }}/> :
     <OktaSignInWidget
       config={config}

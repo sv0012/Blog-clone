@@ -56,7 +56,7 @@ const Comments = ({ post }) => {
     const handleChange = (e) => {
         setComment({
             ...comment,
-            name: post.username,
+            name:  account ? account : post.username,
             postId: post._id,
             comments: e.target.value
         });

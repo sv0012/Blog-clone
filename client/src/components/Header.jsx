@@ -36,7 +36,10 @@ const Header = () => {
 
     const login = async () => history.push('/login');
     
-    const logout = async () => oktaAuth.signOut();
+    const logout = async () => {
+        oktaAuth.signOut();
+        localStorage.removeItem("okta-cache-storage");
+    }
 
     const button = authState.isAuthenticated ? 
         <Button onClick={logout} style={{

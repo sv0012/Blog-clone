@@ -51,7 +51,7 @@ const useStyle = makeStyles(theme => ({
 
 const DetailView = ({ match }) => {
     const [post, setPost] = useState({});
-    const { account, setAccount } = useContext(LoginContext);
+    const { account } = useContext(LoginContext);
     const history = useHistory();
 
     const deleteBlog = async () => {
@@ -64,9 +64,11 @@ const DetailView = ({ match }) => {
             let data = await getPost(match.params.id);
             setPost(data);
         }
-        fetchData();
+        fetchData();      
+        
     }, []);
-
+     
+    
 
     const classes = useStyle();
     const url = 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
@@ -74,7 +76,8 @@ const DetailView = ({ match }) => {
         <Box className={classes.container}>
             <img src={post.picture || url} alt="banner" className={classes.image} />
             <Box className={classes.icons}>
-                 {   
+                 {  
+                 
                     account === post.username && 
                     <>  
                         <Link to={`/update/${post._id}`}><Edit className={classes.icon} color="primary"/></Link>
