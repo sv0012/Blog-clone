@@ -92,7 +92,7 @@ const Comments = ({ post }) => {
             <Box>
                 {
                     comments && comments.map(comment => (
-                        <Comment account={account} comment={comment} setToggle={setToggle} />
+                        <Comment account={account} post={post} comment={comment} setToggle={setToggle} />
                     ))
                 }
             </Box>
