@@ -3,7 +3,7 @@ import { makeStyles, Box, FormControl, InputBase, Button, TextareaAutosize } fro
 import { AddCircle } from '@material-ui/icons';
 import { createPost, uploadFile } from '../../service/api';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LoginContext } from '../../context/ContextProvider';
+
 
 
 
@@ -48,7 +48,6 @@ const initialValue = {
     title: '',
     description: '',
     picture: '',
-    username: '',
     categories: '',
     createdDate: new Date()
 }
@@ -59,7 +58,7 @@ const CreateView = () => {
     const [image, setImage] = useState('');
     const history = useHistory();
     const location = useLocation();
-    const { account, setAccount } = useContext(LoginContext);
+  
 
     useEffect(() => {
         const getImage = async () => { 
@@ -75,7 +74,7 @@ const CreateView = () => {
         }
         getImage();
         post.categories = location.search?.split('=')[1] || 'All'
-        post.username = account;
+        
     }, [file])
 
     const handleChange = (e) => {
@@ -84,14 +83,14 @@ const CreateView = () => {
 
     const savePost = async () => {
         await createPost(post);
-        history.push('/');
+        history.push('/'); 
     }
-
+    console.log(post.picture)
     const classes = useStyle();
     const url = post.picture ? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
     return (
         <Box className={classes.container}>
-            <img src={url} alt="banner" className={classes.image} />
+            <img src={url} className={classes.image} />
             <FormControl className={classes.form}>
                 <label htmlFor="fileInput">
                     <AddCircle className={classes.addIcon} fontSize="large" color="action" />

@@ -47,10 +47,9 @@ const Post = ({post}) => {
 
     return (
         <Box className={classes.container}>
-            <img src={url} alt="wrapper" className={classes.image} />
+            <img src={url} className={classes.image} />
             <Typography className={classes.text}>{post.categories}</Typography>
             <Typography className={classes.heading}>{addEllipsis(post.title, 20)}</Typography>
-            <Typography className={classes.text} >Author : {post.username}</Typography>
             <Typography className={classes.detail}>{addEllipsis(post.description, 100)}</Typography>
             </Box>
     )

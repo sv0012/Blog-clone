@@ -42,7 +42,6 @@ const initialValue = {
     title: '',
     description: '',
     picture: '',
-    username: 'codeforinterview',
     categories: 'All',
     createdDate: new Date()
 }
@@ -78,8 +77,7 @@ const UpdateView = ({ match }) => {
             }
         }
         getImage();
-        // post.categories = location.search?.split('=')[1] || 'All'
-        // post.username = account;
+        
     }, [file])
 
     const updateBlogPost = async () => {
@@ -91,7 +89,7 @@ const UpdateView = ({ match }) => {
     const url = post.picture ? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
     return (
         <Box className={classes.container}>
-            <img src={url} alt="banner" className={classes.image} />
+            <img src={url}  className={classes.image} />
             <FormControl className={classes.form}>
                 <label htmlFor="fileInput">
                     <AddCircle className={classes.addIcon} fontSize="large" color="action" />

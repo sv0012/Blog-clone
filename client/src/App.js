@@ -1,7 +1,11 @@
-import { BrowserRouter } from 'react-router-dom';
-import AppWithRouterAccess from './AppWithRouterAccess';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Box } from '@material-ui/core';
 import './App.css';
-import ContextProvider from './context/ContextProvider';
+import Header from './components/Header';
+import Home from './components/home/Home';
+import DetailView from './components/post/DetailView';
+import CreateView from './components/post/CreateView';
+import UpdateView from './components/post/UpdateView';
 
 
 
@@ -9,11 +13,21 @@ import ContextProvider from './context/ContextProvider';
 function App() {
   return (
     <>
-      <ContextProvider>
+      
         <BrowserRouter>
-          <AppWithRouterAccess />
+        <Header />
+        <Box style={{ marginTop: 64 }}>
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/details/:id' component={DetailView} />
+                    <Route exact path='/create/:category?' component={CreateView} />
+                    <Route exact path='/update/:id' component={UpdateView} />
+
+                
+                </Switch>
+            </Box>
         </BrowserRouter>
-      </ContextProvider>
+      
 
     </>
 
