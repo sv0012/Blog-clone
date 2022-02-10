@@ -14,7 +14,7 @@ const Home = () => {
     email = email && email.split('@')[0];
     setAccount(email);
 }, [])
-console.log(account)
+
   
     return (
       <>
