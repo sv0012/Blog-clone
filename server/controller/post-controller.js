@@ -4,7 +4,6 @@ export const createPost = async (request, response) => {
     try {
         const post = await new Post(request.body);
         post.save();
-        console.log(request.body)
         response.status(200).json('Blog saved successfully');
     } catch (error) {
         response.status(500).json(error);
@@ -41,11 +40,20 @@ export const getPost = async (request, response) => {
 
 export const updatePost = async (request, response) => {
     try {
-        const post = await Post.findById(request.params.id);
         
-        await Post.findByIdAndUpdate( request.params.id, { $set: request.body })
+        const post = request.body.post;
+        const user = request.body.user;
+       
+        if(post.authorId === user._id){
+           
+            await Post.findByIdAndUpdate( request.params.id, { $set: post })
+    
+            response.status(200).json('blog updated successfully');
 
-        response.status(200).json('blog updated successfully');
+        }else{
+            response.status(403).json('You are not authorized to edit this post')
+        }
+      
     } catch (error) {
         response.status(500).json(error);
     }
@@ -53,6 +61,7 @@ export const updatePost = async (request, response) => {
 
 export const deletePost = async (request, response) => {
     try {
+        
         const post = await Post.findById(request.params.id);
         
         await post.delete()

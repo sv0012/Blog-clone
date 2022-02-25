@@ -3,6 +3,7 @@ import { makeStyles, Box, FormControl, InputBase, Button, TextareaAutosize } fro
 import { AddCircle } from '@material-ui/icons';
 import { createPost, uploadFile } from '../../service/api';
 import { useHistory, useLocation } from 'react-router-dom';
+import LoggedInUserContext from '../../context/loggedInUser';
 
 
 
@@ -58,6 +59,7 @@ const CreateView = () => {
     const [image, setImage] = useState('');
     const history = useHistory();
     const location = useLocation();
+    const {user} = useContext(LoggedInUserContext);
   
 
     useEffect(() => {
@@ -66,14 +68,14 @@ const CreateView = () => {
                 const data = new FormData();
                 data.append("name", file.name);
                 data.append("file", file);
-                
-                const image = await uploadFile(data);
-                post.picture = image.data;
-                setImage('');
+                const image = await uploadFile(data,user);
+                setPost({ ...post,picture : image.data  });
+                setImage(image.data);
             }
         }
         getImage();
-        post.categories = location.search?.split('=')[1] || 'All'
+        post.categories = location.search?.split('=')[1] || 'All';
+        setPost({ ...post,author : user.name,authorId : user._id  });
         
     }, [file])
 
@@ -82,10 +84,11 @@ const CreateView = () => {
     }
 
     const savePost = async () => {
-        await createPost(post);
-        history.push('/'); 
+        await createPost(post,user);
+        history.push('/');
+        
     }
-    console.log(post.picture)
+    
     const classes = useStyle();
     const url = post.picture ? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
     return (

@@ -1,16 +1,18 @@
 import { Grid } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import LoggedInUserContext from '../../context/loggedInUser'
 import { getAllPosts } from '../../service/api'
 import Post from './Post'
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const { search } = useLocation();
-
+  const {user} = useContext(LoggedInUserContext);
+  
     useEffect(() => {
         const fetchData = async () => { 
-            let data = await getAllPosts(search); // params in url
+            let data = await getAllPosts(search,user); // params in url
             setPosts(data);
         }
         fetchData();

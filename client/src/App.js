@@ -7,29 +7,49 @@ import DetailView from './components/post/DetailView';
 import CreateView from './components/post/CreateView';
 import UpdateView from './components/post/UpdateView';
 
+import Register from './components/register/Register';
+import Login from './components/login/Login';
+import { useState } from 'react';
+import LoggedInUserContext from './context/loggedInUser';
+import ProtectedRoute from './helpers/ProtectedRoute';
+
 
 
 
 function App() {
+
+  const loggedInUser = JSON.parse(localStorage.getItem('userInfo'));
+  const [user, setUser] = useState(loggedInUser);
   return (
-    <>
-      
+    <LoggedInUserContext.Provider value={{ user, setUser }}>
+      <>
+
         <BrowserRouter>
-        <Header />
-        <Box style={{ marginTop: 64 }}>
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route exact path='/details/:id' component={DetailView} />
-                    <Route exact path='/create/:category?' component={CreateView} />
-                    <Route exact path='/update/:id' component={UpdateView} />
-
-                
-                </Switch>
-            </Box>
+        {user && <Header />}
+          
+          <Box style={{ marginTop: 64 }}>
+            <Switch>
+              <ProtectedRoute path='/' user={user} exact>
+                <Home />
+              </ProtectedRoute>
+              <ProtectedRoute path='/details/:id' user={user} exact>
+                <DetailView />
+              </ProtectedRoute>
+              <ProtectedRoute path='/create/:category?' user={user} exact>
+                <CreateView />
+              </ProtectedRoute>
+              <ProtectedRoute path='/update/:id' user={user} exact>
+                <UpdateView />
+              </ProtectedRoute>
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/register' component={Register} />
+            </Switch>
+          </Box>
         </BrowserRouter>
-      
 
-    </>
+
+      </>
+    </LoggedInUserContext.Provider>
 
 
   );

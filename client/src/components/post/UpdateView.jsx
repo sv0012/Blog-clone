@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles, Box, FormControl, InputBase, Button, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { getPost, updatePost, uploadFile } from '../../service/api';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import LoggedInUserContext from '../../context/loggedInUser';
 
 const useStyle = makeStyles(theme => ({
     container: {
@@ -51,6 +52,9 @@ const UpdateView = ({ match }) => {
     const [file, setFile] = useState('');
     const [image, setImage] = useState('');
     const history = useHistory();
+    const {user} = useContext(LoggedInUserContext);
+
+    let { id } = useParams();
 
     const handleChange = (e) => {
         setPost({ ...post, [e.target.name]: e.target.value });
@@ -58,7 +62,7 @@ const UpdateView = ({ match }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await getPost(match.params.id);
+            let data = await getPost(id,user);
             setPost(data);
         }
         fetchData();
@@ -81,12 +85,12 @@ const UpdateView = ({ match }) => {
     }, [file])
 
     const updateBlogPost = async () => {
-        await updatePost(match.params.id, post);
-        history.push(`/details/${match.params.id}`);
+        await updatePost(id, post,user);
+        history.push(`/details/${id}`);
     }
 
     const classes = useStyle();
-    const url = post.picture ? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
+    const url = post.picture;
     return (
         <Box className={classes.container}>
             <img src={url}  className={classes.image} />

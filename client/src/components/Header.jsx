@@ -1,6 +1,7 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { AppBar, Toolbar, Typography, makeStyles, Button } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom'
+import LoggedInUserContext from '../context/loggedInUser';
 
 
  
@@ -22,13 +23,25 @@ const useStyle = makeStyles({
         textDecoration:'none',
         color:'inherit'
 
+    },
+    btn: {
+        fontSize: 16
+
     }
 })
 
 
 const Header = () => {
     const classes = useStyle();
+    const history = useHistory();
+    const {setUser} = useContext(LoggedInUserContext);
 
+
+    const handleLogout = () => {
+        localStorage.removeItem("userInfo");
+        setUser();
+        history.push('/');
+    }
     
 
 
@@ -38,6 +51,8 @@ const Header = () => {
                 <Link className={classes.link} to='/'>
                     <Typography>HOME</Typography>
                 </Link>
+                <Button className={classes.btn}onClick={handleLogout} >LOGOUT</Button>
+
             </Toolbar>
         </AppBar>
     )
